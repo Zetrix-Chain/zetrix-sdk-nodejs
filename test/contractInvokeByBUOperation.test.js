@@ -32,7 +32,7 @@ describe('Test contract Invoke By Gas  transaction', function() {
       let contractInvokeByGasOperation = yield sdk.operation.contractInvokeByGasOperation({
         contractAddress,
         sourceAddress,
-        gasAmount: '0',
+        gasAmount: '0', //gasAmount is referring to the native token to be sent
         input: 'aaaa',
         // metadata: 'Test contract create operation',
       });
@@ -60,14 +60,14 @@ describe('Test contract Invoke By Gas  transaction', function() {
         return;
       }
 
-      let feeLimit = feeData.result.feeLimit;
+      let feeLimit = feeData.result.feeLimit; //feeLimit = gasPrice * tx_size
       let gasPrice = feeData.result.gasPrice;
 
       // 2. build blob
       let blobInfo = sdk.transaction.buildBlob({
         sourceAddress: sourceAddress,
         gasPrice,
-        feeLimit,
+        feeLimit, //feeLimit = gasPrice * tx_size
         nonce: nonce,
         operations: [ operationItem ],
       });

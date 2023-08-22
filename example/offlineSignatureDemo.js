@@ -22,9 +22,9 @@ describe('The demo of offline signature', function() {
     // The unit is UGAS
     const gasPrice = '1000';
     // The unit is UGAS
-    const feeLimit = '306000';
+    const feeLimit = '306000'; //feeLimit = gasPrice * tx_size
     // The unit is UGAS
-    const gasAmount = '7000';
+    const gasAmount = '7000'; //gasAmount is referring to the native token to be sent
     // Transaction initiation account's Nonce + 1
     const nonce = '10';
     const metadata = 'send gas demo';
@@ -33,7 +33,7 @@ describe('The demo of offline signature', function() {
     const operationInfo = sdk.operation.gasSendOperation({
       sourceAddress: senderAddress,
       destAddress: receiverAddress,
-      gasAmount,
+      gasAmount, //gasAmount is referring to the native token to be sent
       metadata,
     });
 
@@ -50,7 +50,7 @@ describe('The demo of offline signature', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: senderAddress,
       gasPrice,
-      feeLimit,
+      feeLimit, //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });

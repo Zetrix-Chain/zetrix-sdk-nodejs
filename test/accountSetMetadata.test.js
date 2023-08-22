@@ -54,7 +54,7 @@ describe('Test account Set Metadata Operation', function() {
       return;
     }
 
-    let feeLimit = feeData.result.feeLimit;
+    let feeLimit = feeData.result.feeLimit; //feeLimit = gasPrice * tx_size
     let gasPrice = feeData.result.gasPrice;
 
     // console.log(feeData);
@@ -65,7 +65,7 @@ describe('Test account Set Metadata Operation', function() {
     let blobInfo = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice,
-      feeLimit,
+      feeLimit, //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });
