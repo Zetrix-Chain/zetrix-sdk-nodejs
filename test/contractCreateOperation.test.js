@@ -30,7 +30,7 @@ describe('Test contract create operation', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
       gasPrice: '1000',
-      feeLimit: '1000000',
+      feeLimit: '1000000', //feeLimit = gasPrice * tx_size
       nonce: '123',
       operations: [ operationItem ],
     });

@@ -62,14 +62,14 @@ describe('Test contract invoke by asset operation transaction', function() {
         return;
       }
 
-      let feeLimit = feeData.result.feeLimit;
+      let feeLimit = feeData.result.feeLimit; //feeLimit = gasPrice * tx_size
       let gasPrice = feeData.result.gasPrice;
 
       // 2. build blob
       let blobInfo = sdk.transaction.buildBlob({
         sourceAddress: sourceAddress,
         gasPrice,
-        feeLimit,
+        feeLimit, //feeLimit = gasPrice * tx_size
         nonce: nonce,
         operations: [ operationItem ],
       });

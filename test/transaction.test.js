@@ -29,7 +29,7 @@ describe('Test transaction', function() {
 
       let sendGasOperation = sdk.operation.gasSendOperation({
         destAddress,
-        gasAmount: '60000',
+        gasAmount: '60000', //gas is referring to the native token to be sent
         // metadata: 'oh my send gas',
       });
 
@@ -89,7 +89,7 @@ describe('Test transaction', function() {
       let sendZtxInfo = sdk.operation.gasSendOperation({
         // sourceAddress,
         destAddress,
-        gasAmount: '10000000',
+        gasAmount: '10000000', //gas is referring to the native token to be sent
         // metadata: 'oh my send gas',
       });
 
@@ -116,14 +116,14 @@ describe('Test transaction', function() {
       //   console.log(feeData);
       //   return;
       // }
-      // const feeLimit = feeData.result.feeLimit;
+      // const feeLimit = feeData.result.feeLimit; //feeLimit = gasPrice * tx_size
       // const gasPrice = feeData.result.gasPrice;
 
       // 2. build blob
       let blobInfo = sdk.transaction.buildBlob({
         sourceAddress,
         gasPrice: '1000',
-        feeLimit: '14119000',
+        feeLimit: '14119000', //feeLimit = gasPrice * tx_size
         nonce,
         // ceilLedgerSeq: '',
         operations: [ sendGasOperation ],
