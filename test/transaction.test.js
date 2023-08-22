@@ -29,7 +29,7 @@ describe('Test transaction', function() {
 
       let sendGasOperation = sdk.operation.gasSendOperation({
         destAddress,
-        gasAmount: '60000', //gas is referring to the native token to be sent
+        gasAmount: '60000', //gasAmount is referring to the native token to be sent
         // metadata: 'oh my send gas',
       });
 
@@ -89,7 +89,7 @@ describe('Test transaction', function() {
       let sendZtxInfo = sdk.operation.gasSendOperation({
         // sourceAddress,
         destAddress,
-        gasAmount: '10000000', //gas is referring to the native token to be sent
+        gasAmount: '10000000', //gasAmount is referring to the native token to be sent
         // metadata: 'oh my send gas',
       });
 

@@ -31,7 +31,7 @@ describe('The demo of submit transaction ', function() {
     const operationInfo = sdk.operation.gasSendOperation({
       sourceAddress: senderAddress,
       destAddress: receiverAddress,
-      gasAmount: '7000', //gas is referring to the native token to be sent
+      gasAmount: '7000', //gasAmount is referring to the native token to be sent
       metadata: 'send gas demo',
     });
 

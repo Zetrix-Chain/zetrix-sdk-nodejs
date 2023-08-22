@@ -32,7 +32,7 @@ describe('Test contract Invoke By Gas  transaction', function() {
       let contractInvokeByGasOperation = yield sdk.operation.contractInvokeByGasOperation({
         contractAddress,
         sourceAddress,
-        gasAmount: '0', //gas is referring to the native token to be sent
+        gasAmount: '0', //gasAmount is referring to the native token to be sent
         input: 'aaaa',
         // metadata: 'Test contract create operation',
       });

@@ -144,7 +144,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const operationInfo = sdk.operation.gasSendOperation({
       sourceAddress: genesisAccount,
       destAddress: newAddress,
-      gasAmount: '7000000000', //gas is referring to the native token to be sent
+      gasAmount: '7000000000', //gasAmount is referring to the native token to be sent
       metadata: 'send gas demo',
     });
     assert.strictEqual(operationInfo.errorCode, 0, operationInfo.errorDesc);
