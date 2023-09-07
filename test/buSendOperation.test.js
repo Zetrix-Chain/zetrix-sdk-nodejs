@@ -1,11 +1,11 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const ZtxChainSDK = require('../index');
 
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: 'http://192.168.10.100:19343',//Can use process.env.HOST_URL to prevent repetition
 });
 
 describe('Test gas send operation', function() {

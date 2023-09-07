@@ -1,5 +1,5 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const BigNumber = require('bignumber.js');
 const co = require('co');
@@ -7,7 +7,7 @@ const co = require('co');
 const ZtxChainSDK = require('../index');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: 'http://192.168.10.100:19343',//Can use process.env.HOST_URL to prevent repetition
 });
 
 describe('Test contract invoke by asset operation transaction', function() {

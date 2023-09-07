@@ -1,12 +1,12 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const BigNumber = require('bignumber.js');
 
 const ZtxChainSDK = require('../index');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.4.131:18333',
+  host: 'http://192.168.4.131:18333',//Can use process.env.HOST_URL to prevent repetition
 });
 
 describe('Test build blob', function() {
