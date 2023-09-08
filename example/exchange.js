@@ -1,16 +1,16 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const BigNumber = require('bignumber.js');
 const ZtxChainSDK = require('../lib/sdk');
 const assert = require('assert');
 
 const sdk = new ZtxChainSDK({
-  host: '192.168.4.131:18333',
+  host: '192.168.4.131:18333',//Can use process.env.HOST_URL to prevent repetition
 });
 
-let genesisAccount = "ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3";
-let genesisAccountPriv = "privBwYirzSUQ7ZhgLbDpRXC2A75HoRtGAKSF76dZnGGYXUvHhCK4xuz";
+let genesisAccount = "ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3";//Can use process.env.ADDRESS_1 to prevent repetition
+let genesisAccountPriv = "privBwYirzSUQ7ZhgLbDpRXC2A75HoRtGAKSF76dZnGGYXUvHhCK4xuz";//Can use process.env.ADDRESS_1_PRIVATE_KEY to prevent repetition
 let newAddress = "";
 let newPriv = "";
 let txHash = "";

@@ -1,10 +1,10 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const ZtxChainSDK = require('zetrix-sdk');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: 'http://192.168.10.100:19343',//Can use process.env.HOST_URL to prevent repetition
 });
 
 describe('The demo of offline signature', function() {
@@ -16,9 +16,9 @@ describe('The demo of offline signature', function() {
   // step2. Sign blob with sender private key
   // ====================================
   it('The demo of offline signature', async() => {
-    const senderPrivateKey = 'sender private key';
-    const senderAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
-    const receiverAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    const senderPrivateKey = 'sender private key';//Can use process.env.ADDRESS_1_PRIVATE_KEY to prevent repetition
+    const senderAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';//Can use process.env.ADDRESS_1 to prevent repetition
+    const receiverAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';//Can use process.env.ADDRESS_2 to prevent repetition
     // The unit is UGAS
     const gasPrice = '1000';
     // The unit is UGAS
