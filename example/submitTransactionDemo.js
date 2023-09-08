@@ -1,19 +1,19 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const BigNumber = require('bignumber.js');
 const ZtxChainSDK = require('zetrix-sdk');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: 'http://192.168.10.100:19343',//Can use process.env.HOST_URL to prevent repetition
 });
 
 describe('The demo of submit transaction ', function() {
 
   it('The demo of submit transaction', async() => {
-    const senderPrivateKey = 'sender private key';
-    const senderAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
-    const receiverAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    const senderPrivateKey = 'sender private key';//Can use process.env.ADDRESS_1_PRIVATE_KEY to prevent repetition
+    const senderAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';//Can use process.env.ADDRESS_1 to prevent repetition
+    const receiverAddress = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';//Can use process.env.ADDRESS_2 to prevent repetition
 
     const accountInfo = await sdk.account.getNonce(senderAddress);
 
@@ -31,7 +31,7 @@ describe('The demo of submit transaction ', function() {
     const operationInfo = sdk.operation.gasSendOperation({
       sourceAddress: senderAddress,
       destAddress: receiverAddress,
-      gasAmount: '7000',
+      gasAmount: '7000', //gasAmount is referring to the native token to be sent
       metadata: 'send gas demo',
     });
 
@@ -48,7 +48,7 @@ describe('The demo of submit transaction ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: senderAddress,
       gasPrice: '1000',
-      feeLimit: '306000',
+      feeLimit: '306000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });

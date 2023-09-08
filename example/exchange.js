@@ -1,16 +1,16 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const BigNumber = require('bignumber.js');
 const ZtxChainSDK = require('../lib/sdk');
 const assert = require('assert');
 
 const sdk = new ZtxChainSDK({
-  host: '192.168.4.131:18333',
+  host: '192.168.4.131:18333',//Can use process.env.HOST_URL to prevent repetition
 });
 
-let genesisAccount = "ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3";
-let genesisAccountPriv = "privBwYirzSUQ7ZhgLbDpRXC2A75HoRtGAKSF76dZnGGYXUvHhCK4xuz";
+let genesisAccount = "ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3";//Can use process.env.ADDRESS_1 to prevent repetition
+let genesisAccountPriv = "privBwYirzSUQ7ZhgLbDpRXC2A75HoRtGAKSF76dZnGGYXUvHhCK4xuz";//Can use process.env.ADDRESS_1_PRIVATE_KEY to prevent repetition
 let newAddress = "";
 let newPriv = "";
 let txHash = "";
@@ -70,7 +70,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: genesisAccount,
       gasPrice: '1000',
-      feeLimit: '1000000',
+      feeLimit: '1000000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [operationItem],
     });
@@ -144,7 +144,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const operationInfo = sdk.operation.gasSendOperation({
       sourceAddress: genesisAccount,
       destAddress: newAddress,
-      gasAmount: '7000000000',
+      gasAmount: '7000000000', //gasAmount is referring to the native token to be sent
       metadata: 'send gas demo',
     });
     assert.strictEqual(operationInfo.errorCode, 0, operationInfo.errorDesc);
@@ -157,7 +157,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: genesisAccount,
       gasPrice: '1000',
-      feeLimit: '1060000',
+      feeLimit: '1060000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });
@@ -232,7 +232,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: genesisAccount,
       gasPrice: '1000',
-      feeLimit: '51000000',
+      feeLimit: '51000000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });
@@ -315,7 +315,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: genesisAccount,
       gasPrice: '1000',
-      feeLimit: '1060000',
+      feeLimit: '1060000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });
@@ -391,7 +391,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: genesisAccount,
       gasPrice: '1000',
-      feeLimit: '1060000',
+      feeLimit: '1060000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });
@@ -536,7 +536,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: newAddress,
       gasPrice: '1000',
-      feeLimit: '17000000',
+      feeLimit: '17000000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [operationItem],
     });
@@ -637,7 +637,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: newAddress,
       gasPrice: '1000',
-      feeLimit: '1000000',
+      feeLimit: '1000000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [operationItem],
     });
@@ -708,7 +708,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: newAddress,
       gasPrice: '1000',
-      feeLimit: '1000000',
+      feeLimit: '1000000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [operationItem],
     });
@@ -756,7 +756,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
     const callResp = await sdk.contract.call({
       contractAddress: contractAddress,
       contractBalance: '100000000000',
-      feeLimit: '1000000000',
+      feeLimit: '1000000000', //feeLimit = gasPrice * tx_size
       gasPrice: '1000',
       input: '{\"method\":\"balanceOf\",\"params\":{\"address\":\"ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3\"}}',
       optType: 2

@@ -1,11 +1,11 @@
 'use strict';
-
+require("dotenv").config();
 require('chai').should();
 const ZtxChainSDK = require('../index');
 const BigNumber = require('bignumber.js');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: 'http://192.168.10.100:19343',//Can use process.env.HOST_URL to prevent repetition
 });
 
 describe('Test account Set Metadata Operation', function() {
@@ -54,7 +54,7 @@ describe('Test account Set Metadata Operation', function() {
       return;
     }
 
-    let feeLimit = feeData.result.feeLimit;
+    let feeLimit = feeData.result.feeLimit; //feeLimit = gasPrice * tx_size
     let gasPrice = feeData.result.gasPrice;
 
     // console.log(feeData);
@@ -65,7 +65,7 @@ describe('Test account Set Metadata Operation', function() {
     let blobInfo = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice,
-      feeLimit,
+      feeLimit, //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });
