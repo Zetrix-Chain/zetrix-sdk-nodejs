@@ -56,7 +56,7 @@ describe('Test account Set Privilege Operation', function() {
       return;
     }
 
-    let feeLimit = feeData.result.feeLimit;
+    let feeLimit = feeData.result.feeLimit; //feeLimit = gasPrice * tx_size
     let gasPrice = feeData.result.gasPrice;
 
     console.log(feeData);

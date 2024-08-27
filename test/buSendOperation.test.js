@@ -14,7 +14,7 @@ describe('Test gas send operation', function() {
     let data = sdk.operation.gasSendOperation({
       sourceAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
       destAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
-      gasAmount: '6000',
+      gasAmount: '6000', //gasAmount is referring to the native token to be sent
       metadata: 'oh my send gas',
     });
     data.errorCode.should.equal(0);
@@ -28,7 +28,7 @@ describe('Test gas send operation', function() {
     data = sdk.operation.gasSendOperation({
       sourceAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3A',
       destAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
-      gasAmount: '6000',
+      gasAmount: '6000', //gasAmount is referring to the native token to be sent
       metadata: 'oh my send gas',
     });
     data.errorCode.should.equal(11002);
@@ -36,7 +36,7 @@ describe('Test gas send operation', function() {
     data = sdk.operation.gasSendOperation({
       sourceAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
       destAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3A',
-      gasAmount: '6000',
+      gasAmount: '6000', //gasAmount is referring to the native token to be sent
       metadata: 'oh my send gas',
     });
     data.errorCode.should.equal(11003);
@@ -45,7 +45,7 @@ describe('Test gas send operation', function() {
     data = sdk.operation.gasSendOperation({
       sourceAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
       destAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
-      gasAmount: '6000A',
+      gasAmount: '6000A', //gasAmount is referring to the native token to be sent
       metadata: 'oh my send gas',
     });
     data.errorCode.should.equal(11026);
@@ -54,7 +54,7 @@ describe('Test gas send operation', function() {
     data = sdk.operation.gasSendOperation({
       sourceAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
       destAddress: 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3',
-      gasAmount: '6000',
+      gasAmount: '6000', //gasAmount is referring to the native token to be sent
       metadata: '',
     });
 
