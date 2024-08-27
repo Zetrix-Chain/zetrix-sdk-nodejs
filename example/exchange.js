@@ -24,7 +24,7 @@ function sleep(ms) {
 describe('The demo of zetrix-sdk for exchange ', function() {
   it('Create account', async() => {
     const keypair = await sdk.account.create();
-    assert.strictEqual(keypair.errorCode, 0, "创建账户失败");
+    assert.strictEqual(keypair.errorCode, 0, "Failed to create account");
     newAddress = keypair.result.address;
     newPriv = keypair.result.privateKey;
     console.log(keypair);
@@ -32,8 +32,8 @@ describe('The demo of zetrix-sdk for exchange ', function() {
 
   it('Check address validity', async() => {
     const data = await sdk.account.checkValid(newAddress);
-    assert.strictEqual(data.errorCode, 0, "校验用户地址失败");
-    assert.strictEqual(data.result.isValid, true, "用户地址无效");
+    assert.strictEqual(data.errorCode, 0, "Failed to verify user address");
+    assert.strictEqual(data.result.isValid, true, "User address is invalid");
   });
 
   // ====================================
