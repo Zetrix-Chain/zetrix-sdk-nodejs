@@ -1,12 +1,12 @@
 'use strict';
-
+require('dotenv').config({path: ".env"});
 require('chai').should();
 const BigNumber = require('bignumber.js');
 const ZtxChainSDK = require('../lib/sdk');
 const assert = require('assert');
 
 const sdk = new ZtxChainSDK({
-  host: '192.168.4.131:18333',
+  host: process.env.NODE_URL,
 });
 
 let genesisAccount = "ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3";
@@ -21,10 +21,10 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-describe('The demo of zetrix-sdk for exchange ', function() {
+describe('The demo of zetrix-sdk for exchange', function() {
   it('Create account', async() => {
     const keypair = await sdk.account.create();
-    assert.strictEqual(keypair.errorCode, 0, "创建账户失败");
+    assert.strictEqual(keypair.errorCode, 0, "Account creation failed");
     newAddress = keypair.result.address;
     newPriv = keypair.result.privateKey;
     console.log(keypair);
@@ -32,8 +32,8 @@ describe('The demo of zetrix-sdk for exchange ', function() {
 
   it('Check address validity', async() => {
     const data = await sdk.account.checkValid(newAddress);
-    assert.strictEqual(data.errorCode, 0, "校验用户地址失败");
-    assert.strictEqual(data.result.isValid, true, "用户地址无效");
+    assert.strictEqual(data.errorCode, 0, "Failed to verify user address");
+    assert.strictEqual(data.result.isValid, true, "Invalid user address");
   });
 
   // ====================================
@@ -115,12 +115,12 @@ describe('The demo of zetrix-sdk for exchange ', function() {
 
   it('Get Account Nonce', async() => {
     const data = await sdk.account.getNonce(newAddress);
-    assert.strictEqual(data.errorCode, 0, "获取用户nonce失败");
+    assert.strictEqual(data.errorCode, 0, "Failed to obtain user nonce");
   });
 
   it('Get Account Info', async() => {
     const info = await sdk.account.getInfo(newAddress);
-    assert.strictEqual(info.errorCode, 0, "获取用户信息失败");
+    assert.strictEqual(info.errorCode, 0, "Failed to obtain user information");
   });
 
   // ====================================
@@ -202,7 +202,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
 
   it('Get Account Balance', async() => {
     const info = await sdk.account.getBalance(newAddress);
-    assert.strictEqual(info.errorCode, 0, "获取用户余额失败");
+    assert.strictEqual(info.errorCode, 0, "Failed to obtain user balance");
   });
 
   it('Issue Asset', async() => {
@@ -282,7 +282,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
       issuer: genesisAccount
     };
     const info = await sdk.token.asset.getInfo(assetKey);
-    assert.strictEqual(info.errorCode, 0, "获取资产信息失败");
+    assert.strictEqual(info.errorCode, 0, "Failed to obtain asset information");
     console.log(info);
   });
 
@@ -360,7 +360,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
 
   it('Get Account Assets', async() => {
     const info = await sdk.account.getAssets(newAddress);
-    assert.strictEqual(info.errorCode, 0, "获取账户资产失败");
+    assert.strictEqual(info.errorCode, 0, "Failed to obtain account assets");
     console.log(info);
   });
 
@@ -440,13 +440,13 @@ describe('The demo of zetrix-sdk for exchange ', function() {
       key: 'test'
     };
     const info = await sdk.account.getMetadata(metadataKey);
-    assert.strictEqual(info.errorCode, 0, "获取账户metadata失败");
+    assert.strictEqual(info.errorCode, 0, "Failed to obtain account metadata");
     console.log(info);
   });
 
   it('Get Transaction History', async() => {
     const info = await sdk.transaction.getInfo(txHash);
-    assert.strictEqual(info.errorCode, 0, "获取交易历史失败");
+    assert.strictEqual(info.errorCode, 0, "Failed to obtain transaction history");
     console.log(JSON.stringify(info));
     txBlockNum = info.result.transactions[0].ledger_seq;
   });
@@ -582,28 +582,28 @@ describe('The demo of zetrix-sdk for exchange ', function() {
 
   it('Get Contract Address', async() => {
     const data = await sdk.contract.getAddress(txHash);
-    assert.strictEqual(data.errorCode, 0, "获取合约地址失败");
+    assert.strictEqual(data.errorCode, 0, "Failed to obtain contract address");
     contractAddress = data.result.contractAddressList[0].contract_address;
     console.log(contractAddress);
   });
 
   it('Get Contract Info', async() => {
     const data = await sdk.contract.getInfo(contractAddress);
-    assert.strictEqual(data.errorCode, 0, "获取合约信息失败");
+    assert.strictEqual(data.errorCode, 0, "Failed to obtain contract information");
     console.log(data.result);
   });
 
   it('Check Contract Valid', async() => {
     const data = await sdk.contract.checkValid(contractAddress);
-    assert.strictEqual(data.errorCode, 0, "验证合约失败");
-    assert.strictEqual(data.result.isValid, true, "验证合约失败");
+    assert.strictEqual(data.errorCode, 0, "Failed to verify contract");
+    assert.strictEqual(data.result.isValid, true, "Failed to verify contract");
     console.log(data.result);
   });
 
   it('Check Contract Valid', async() => {
     const data = await sdk.contract.checkValid(contractAddress);
-    assert.strictEqual(data.errorCode, 0, "验证合约失败");
-    assert.strictEqual(data.result.isValid, true, "验证合约失败");
+    assert.strictEqual(data.errorCode, 0, "Failed to verify contract");
+    assert.strictEqual(data.result.isValid, true, "Failed to verify contract");
     console.log(data.result);
   });
 
@@ -696,7 +696,7 @@ describe('The demo of zetrix-sdk for exchange ', function() {
       contractAddress: contractAddress,
       amount: 0,
       input: '{\"method\":\"transfer\",\"params\":{\"to\":\"ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3\",\"value\":\"10000000\"}}',
-      metadata: 'invoke contract by sending gas'
+      metadata: 'invoking contract by sending tokens. 0 ZETRIX (gas) amount is sent'
     });
     assert.strictEqual(operationInfo.errorCode, 0, operationInfo.errorDesc);
 

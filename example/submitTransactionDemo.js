@@ -1,14 +1,14 @@
 'use strict';
-
+require('dotenv').config({path: ".env"});
 require('chai').should();
 const BigNumber = require('bignumber.js');
 const ZtxChainSDK = require('zetrix-sdk');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: process.env.NODE_URL,
 });
 
-describe('The demo of submit transaction ', function() {
+describe('Submit transaction demo', function() {
 
   it('The demo of submit transaction', async() => {
     const senderPrivateKey = 'sender private key';

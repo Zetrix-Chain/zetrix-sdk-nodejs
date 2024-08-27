@@ -16,6 +16,7 @@
     "bignumber.js": "^7.2.1",
     "buffer-to-uint8array": "^1.1.0",
     "co-wrap-all": "^1.0.0",
+    "dotenv": "^16.4.5",
     "humps": "^2.0.1",
     "is-type-of": "^1.2.0",
     "json-bigint": "^0.2.3",
