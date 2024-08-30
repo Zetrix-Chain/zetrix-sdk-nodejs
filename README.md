@@ -72,7 +72,7 @@ $ npm install
 $ npm test
 ```
 
-## Docs
+## Docs & Useful Links
 
   * [SDK Documentation](https://docs.zetrix.com/en/sdk/node.js)
   * [Zetrix Explorer](https://explorer.zetrix.com)
