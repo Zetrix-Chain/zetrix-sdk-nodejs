@@ -696,7 +696,7 @@ describe('The demo of zetrix-sdk for exchange', function() {
       contractAddress: contractAddress,
       amount: 0,
       input: '{\"method\":\"transfer\",\"params\":{\"to\":\"ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3\",\"value\":\"10000000\"}}',
-      metadata: 'invoke contract by sending gas'
+      metadata: 'invoking contract by sending tokens. 0 ZETRIX (gas) amount is sent'
     });
     assert.strictEqual(operationInfo.errorCode, 0, operationInfo.errorDesc);
 

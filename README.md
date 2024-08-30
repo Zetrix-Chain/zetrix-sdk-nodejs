@@ -101,13 +101,16 @@ sdk.account.create().then(data => {
 
 Sample contract call using the SDK:
 ```js
+// Querying a contract
 const data = yield sdk.contract.call({
     optType: 2,
     // Insert contract address
     contractAddress: contractAddress, 
     // Pass input parameters as a JSON string
     input: JSON.stringify({
+      // Calling the 'getCertificateBySerialNumber' query function from the smart contract
       method: 'getCertificateBySerialNumber',
+      // Passing the paramets for querying
       params: {
         serialNumber: "1237"
       }
@@ -115,15 +118,18 @@ const data = yield sdk.contract.call({
   });
 ```
 
-Another [sample](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/blob/main/example/exchange.js) contract invocation:
+Another [sample](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/blob/main/example/exchange.js#L621) contract invocation:
 ```js
-    const operationInfo = await sdk.operation.contractInvokeByGasOperation({
-      sourceAddress: newAddress,
-      contractAddress: contractAddress,
-      amount: 0,
-      input: '{\"method\":\"transfer\",\"params\":{\"to\":\"ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3\",\"value\":\"10000000\"}}',
-      metadata: 'invoke contract by sending gas'
-    });
+// Invoke a contract by sending tokens
+const operationInfo = await sdk.operation.contractInvokeByGasOperation({
+  sourceAddress: newAddress,
+  contractAddress: contractAddress,
+  // 0 ZETA will be sent
+  amount: 0,
+  // Input destination address under "to" and number of tokens under "value"
+  input: '{\"method\":\"transfer\",\"params\":{\"to\":\"ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3\",\"value\":\"10000000\"}}',
+  metadata: 'invoking contract by sending tokens. 0 ZETRIX (gas) amount is sent'
+});
 ```
 
 More examples can be found in the [examples](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/tree/main/example) and [test](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/tree/main/test) folder in the repo.
