@@ -1,13 +1,13 @@
 'use strict';
-
+require('dotenv').config({path: ".env"});
 require('chai').should();
 const ZtxChainSDK = require('zetrix-sdk');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: process.env.NODE_URL,
 });
 
-describe('The demo of offline signature', function() {
+describe('Offline signature demo', function() {
 
   // ====================================
   // Take `gasSendOperation` as an example
@@ -45,7 +45,7 @@ describe('The demo of offline signature', function() {
     const operationItem = operationInfo.result.operation;
 
     // ====================================
-    // step1. Get blob
+    // Step 1. Get blob
     // ====================================
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: senderAddress,
@@ -63,7 +63,7 @@ describe('The demo of offline signature', function() {
     const blob = blobInfo.result.transactionBlob;
 
     // ====================================
-    // step2. Sign blob with sender private key
+    // Step 2. Sign blob with sender private key
     // ====================================
     let signatureInfo = sdk.transaction.sign({
       privateKeys: [ senderPrivateKey ],

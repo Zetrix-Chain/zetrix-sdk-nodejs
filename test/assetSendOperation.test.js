@@ -1,10 +1,10 @@
 'use strict';
-
+require('dotenv').config({path: ".env"});
 require('chai').should();
 const ZtxChainSDK = require('../index');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: process.env.NODE_URL,
 });
 
 describe('Test asset send operation', function() {

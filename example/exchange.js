@@ -1,12 +1,12 @@
 'use strict';
-
+require('dotenv').config({path: ".env"});
 require('chai').should();
 const BigNumber = require('bignumber.js');
 const ZtxChainSDK = require('../lib/sdk');
 const assert = require('assert');
 
 const sdk = new ZtxChainSDK({
-  host: '192.168.4.131:18333',
+  host: process.env.NODE_URL,
 });
 
 let genesisAccount = "ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3";
@@ -21,10 +21,10 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-describe('The demo of zetrix-sdk for exchange ', function() {
+describe('The demo of zetrix-sdk for exchange', function() {
   it('Create account', async() => {
     const keypair = await sdk.account.create();
-    assert.strictEqual(keypair.errorCode, 0, "创建账户失败");
+    assert.strictEqual(keypair.errorCode, 0, "Account creation failed");
     newAddress = keypair.result.address;
     newPriv = keypair.result.privateKey;
     console.log(keypair);
@@ -32,8 +32,8 @@ describe('The demo of zetrix-sdk for exchange ', function() {
 
   it('Check address validity', async() => {
     const data = await sdk.account.checkValid(newAddress);
-    assert.strictEqual(data.errorCode, 0, "校验用户地址失败");
-    assert.strictEqual(data.result.isValid, true, "用户地址无效");
+    assert.strictEqual(data.errorCode, 0, "Failed to verify user address");
+    assert.strictEqual(data.result.isValid, true, "Invalid user address");
   });
 
   // ====================================

@@ -1,11 +1,11 @@
 'use strict';
-
+require('dotenv').config({path: ".env"});
 require('chai').should();
 const ZtxChainSDK = require('../index');
 const BigNumber = require('bignumber.js');
 
 const sdk = new ZtxChainSDK({
-  host: 'http://192.168.10.100:19343',
+  host: process.env.NODE_URL,
 });
 
 describe('Test account Set Privilege Operation', function() {

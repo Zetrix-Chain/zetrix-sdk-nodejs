@@ -1,10 +1,9 @@
 zetrix-sdk-nodejs
 =======
+A complete and simple library for developers to connect and use the Zetrix layer 1 blockchain.
 
-Let developers can all use zetrix blockchain services more easily.
 
-
-## Installation
+## Installation & Prerequisite
 
 This is a [Node.js](https://nodejs.org/en/) module available through the
 [npm registry](https://www.npmjs.com/).
@@ -19,10 +18,27 @@ Installation is done using the
 $ npm install zetrix-sdk-nodejs --save
 ```
 
+In this tutorial, we will also use the [dotenv](https://www.npmjs.com/package/dotenv) package to conveniently manage environment variables
+```bash
+$ npm install dotenv --save
+```
+
+## Configuration
+Create a `.env` file in the root of your project and insert your key/value pairs in the following format of `KEY=VALUE`:
+
+Zetrix Testnet:
+```sh
+NODE_URL=test-node.zetrix.com
+```
+
+Zetrix Mainnet:
+```sh
+NODE_URL=node.zetrix.com
+```
 
 ## Quick Start
 
-  Create zetrix-sdk-nodejs instance:
+Create zetrix-sdk-nodejs instance:
 
 ```js
 'use strict';
@@ -30,22 +46,21 @@ $ npm install zetrix-sdk-nodejs --save
 const ZtxChainSDK = require('zetrix-sdk-nodejs');
 
 const sdk = new ZtxChainSDK({
-  host: 'https://192.168.10.100:19343',
+  host: process.env.NODE_URL,
 });
-
 ```
 
-  Usage:
-
+## Example Usages:
+Here's a simple example of what you can do with the SDK.
 ```js
-// Create account
+// Create a new account onchain
 sdk.account.create().then(data => {
   console.log(data);
 }).catch(err => {
   console.log(err.message);
 });
-
 ```
+More examples can be found in the [examples](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/tree/main/example) and [test](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/tree/main/test) folder in the repo.
 
 
 ## Tests
@@ -59,7 +74,13 @@ $ npm test
 
 ## Docs
 
-  * [Documentation](https://docs.zetrix.com/en/sdk/node.js)
+  * [SDK Documentation](https://docs.zetrix.com/en/sdk/node.js)
+  * [Zetrix Explorer](https://explorer.zetrix.com)
+  * [Zetrix Testnet Faucet](https://faucet.zetrix.com)
+  * [Zetrix Smart Contract IDE](https://ide.zetrix.com/)
+
+## Community Support & Feedback
+If you have questions [submit an issue](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/issues/new/choose) or join us on [Discord](https://discord.gg/)
 
 ## License
 
