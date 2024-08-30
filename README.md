@@ -2,6 +2,14 @@ zetrix-sdk-nodejs
 =======
 A complete and simple library for developers to connect and use the Zetrix layer 1 blockchain.
 
+## Docs & Useful Links
+
+  * [SDK Documentation](https://docs.zetrix.com/en/sdk/node.js)
+  * [Zetrix Explorer](https://explorer.zetrix.com)
+  * [Zetrix Testnet Faucet](https://faucet.zetrix.com)
+  * [Zetrix Smart Contract IDE](https://ide.zetrix.com/)
+  * [Zetrix Wallet](https://www.zetrix.com/zetrix-wallet/)
+
 
 ## Installation & Prerequisite
 
@@ -15,12 +23,12 @@ Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```bash
-$ npm install zetrix-sdk-nodejs --save
+$ npm install zetrix-sdk-nodejs
 ```
 
-In this tutorial, we will also use the [dotenv](https://www.npmjs.com/package/dotenv) package to conveniently manage environment variables
+We also recommend using the [dotenv](https://www.npmjs.com/package/dotenv) package to conveniently manage environment variables
 ```bash
-$ npm install dotenv --save
+$ npm install dotenv
 ```
 
 ## Configuration
@@ -36,9 +44,28 @@ Zetrix Mainnet:
 NODE_URL=node.zetrix.com
 ```
 
-## Quick Start
-
-Create zetrix-sdk-nodejs instance:
+## Quick Start & Basic Usages
+Here's a simple guide to connect your dApp to the Zetrix wallet if you're using the Chrome extension wallet on the browser only. Mobile wallet connection requires a separate SDK:
+```js
+window.zetrix.authorize(
+  { method: "changeAccounts" }, 
+  (resp) => {
+    if (resp.code === 0) {
+      window.zetrix.authorize(
+        { method: "sendRandom", param: { random: "blob" } }, 
+        (resAuth) => {
+          if (resAuth.code === 0) {
+            // retrieve the necessary info from resp.data and resAuth.data to retrieve the address, signData & publicKey
+            sessionStorage.setItem("zetrixAccount", resp.data.address);
+            sessionStorage.setItem("isLogin", "true");
+          }
+        }
+      );
+    } 
+  }
+);
+```
+Create the zetrix-sdk-nodejs instance to begin using the SDK:
 
 ```js
 'use strict';
@@ -50,8 +77,19 @@ const sdk = new ZtxChainSDK({
 });
 ```
 
-## Example Usages:
-Here's a simple example of what you can do with the SDK.
+Retrieving account balance using the SDK:
+```js
+// Retrieve account balance by passing the address
+sdk.account.getBalance(address).then(resp => {
+  if (resp.errorCode === 0) {
+    console.log(resp.result.balance);
+  }
+}).catch(err => {
+  console.log(err.message);
+});
+```
+
+Creating a new account using the SDK:
 ```js
 // Create a new account onchain
 sdk.account.create().then(data => {
@@ -60,6 +98,34 @@ sdk.account.create().then(data => {
   console.log(err.message);
 });
 ```
+
+Sample contract call using the SDK:
+```js
+const data = yield sdk.contract.call({
+    optType: 2,
+    // Insert contract address
+    contractAddress: contractAddress, 
+    // Pass input parameters as a JSON string
+    input: JSON.stringify({
+      method: 'getCertificateBySerialNumber',
+      params: {
+        serialNumber: "1237"
+      }
+    }),
+  });
+```
+
+Another [sample](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/blob/main/example/exchange.js) contract invocation:
+```js
+    const operationInfo = await sdk.operation.contractInvokeByGasOperation({
+      sourceAddress: newAddress,
+      contractAddress: contractAddress,
+      amount: 0,
+      input: '{\"method\":\"transfer\",\"params\":{\"to\":\"ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3\",\"value\":\"10000000\"}}',
+      metadata: 'invoke contract by sending gas'
+    });
+```
+
 More examples can be found in the [examples](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/tree/main/example) and [test](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/tree/main/test) folder in the repo.
 
 
@@ -71,16 +137,6 @@ More examples can be found in the [examples](https://github.com/Zetrix-Chain/zet
 $ npm install
 $ npm test
 ```
-
-## Docs & Useful Links
-
-  * [SDK Documentation](https://docs.zetrix.com/en/sdk/node.js)
-  * [Zetrix Explorer](https://explorer.zetrix.com)
-  * [Zetrix Testnet Faucet](https://faucet.zetrix.com)
-  * [Zetrix Smart Contract IDE](https://ide.zetrix.com/)
-
-## Community Support & Feedback
-If you have questions [submit an issue](https://github.com/Zetrix-Chain/zetrix-sdk-nodejs/issues/new/choose) or join us on [Discord](https://discord.gg/)
 
 ## License
 
