@@ -31,7 +31,7 @@ describe('Submit transaction demo', function() {
     const operationInfo = sdk.operation.gasSendOperation({
       sourceAddress: senderAddress,
       destAddress: receiverAddress,
-      gasAmount: '7000',
+      gasAmount: '7000', //gasAmount is referring to the native token to be sent
       metadata: 'send gas demo',
     });
 
@@ -48,7 +48,7 @@ describe('Submit transaction demo', function() {
     const blobInfo = sdk.transaction.buildBlob({
       sourceAddress: senderAddress,
       gasPrice: '1000',
-      feeLimit: '306000',
+      feeLimit: '306000', //feeLimit = gasPrice * tx_size
       nonce,
       operations: [ operationItem ],
     });

@@ -36,7 +36,7 @@ describe('Test build blob', function() {
     let data = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice: '1234',
-      feeLimit: '123',
+      feeLimit: '123', //feeLimit = gasPrice * tx_size
       nonce: `${nonce}`,
       ceilLedgerSeq: '1',
       operations: [ acountActivateOperation ],
@@ -51,7 +51,7 @@ describe('Test build blob', function() {
     data = sdk.transaction.buildBlob({
       sourceAddress: '',
       gasPrice: '1234',
-      feeLimit: '123',
+      feeLimit: '123', //feeLimit = gasPrice * tx_size
       nonce: `${nonce}`,
       ceilLedgerSeq: '1',
       operations: [ acountActivateOperation ],
@@ -63,7 +63,7 @@ describe('Test build blob', function() {
     data = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice: '-1234',
-      feeLimit: '123',
+      feeLimit: '123', //feeLimit = gasPrice * tx_size
       nonce: `${nonce}`,
       ceilLedgerSeq: '1',
       operations: [ acountActivateOperation ],
@@ -75,7 +75,7 @@ describe('Test build blob', function() {
     data = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice: '1234',
-      feeLimit: '',
+      feeLimit: '', //feeLimit = gasPrice * tx_size
       nonce: `${nonce}`,
       ceilLedgerSeq: '1',
       operations: [ acountActivateOperation ],
@@ -87,7 +87,7 @@ describe('Test build blob', function() {
     data = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice: '100',
-      feeLimit: '1000',
+      feeLimit: '1000', //feeLimit = gasPrice * tx_size
       nonce: '',
       ceilLedgerSeq: '1',
       operations: [ acountActivateOperation ],
@@ -100,7 +100,7 @@ describe('Test build blob', function() {
     data = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice: '100',
-      feeLimit: '1000',
+      feeLimit: '1000', //feeLimit = gasPrice * tx_size
       nonce,
       ceilLedgerSeq: '1',
       operations: [ acountActivateOperation ],
@@ -114,7 +114,7 @@ describe('Test build blob', function() {
     data = sdk.transaction.buildBlob({
       sourceAddress,
       gasPrice: '100',
-      feeLimit: '1000',
+      feeLimit: '1000', //feeLimit = gasPrice * tx_size
       nonce,
       ceilLedgerSeq: '1',
       operations: [ acountActivateOperation ],
