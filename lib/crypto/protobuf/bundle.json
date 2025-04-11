@@ -276,6 +276,30 @@
             }
           }
         },
+        "OperationUpgradeContract": {
+          "fields": {
+            "destAddress": {
+              "type": "string",
+              "id": 1
+            },
+            "sPayload": {
+              "type": "bool",
+              "id": 2
+            },
+            "payload": {
+              "type": "string",
+              "id": 3
+            },
+            "sOwner": {
+              "type": "bool",
+              "id": 4
+            },
+            "owner": {
+              "type": "string",
+              "id": 5
+            }
+          }
+        },
         "Operation": {
           "fields": {
             "type": {
@@ -329,6 +353,10 @@
             "setPrivilege": {
               "type": "OperationSetPrivilege",
               "id": 14
+            },
+            "upgradeContract": {
+              "type": "OperationUpgradeContract",
+              "id": 15
             }
           },
           "nested": {
@@ -343,7 +371,8 @@
                 "SET_THRESHOLD": 6,
                 "PAY_COIN": 7,
                 "LOG": 8,
-                "SET_PRIVILEGE": 9
+                "SET_PRIVILEGE": 9,
+                "UPGRADE_CONTRACT": 10
               }
             }
           }
@@ -590,6 +619,14 @@
             "payload": {
               "type": "string",
               "id": 2
+            },
+            "version": {
+              "type": "int64",
+              "id": 3
+            },
+            "owner": {
+              "type": "string",
+              "id": 4
             }
           },
           "nested": {
