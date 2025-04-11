@@ -6,7 +6,7 @@ const ZtxChainSDK = require('../lib/sdk');
 const assert = require('assert');
 
 const sdk = new ZtxChainSDK({
-  host: process.env.NODE_URL,
+  host: process.env.NODE_URL
 });
 
 let genesisAccount = "ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3";
@@ -21,7 +21,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-describe('The demo of zetrix-sdk for exchange', function() {
+describe('The demo of zetrix-sdk for exchange ', function() {
   it('Create account', async() => {
     const keypair = await sdk.account.create();
     assert.strictEqual(keypair.errorCode, 0, "Account creation failed");
@@ -525,6 +525,7 @@ describe('The demo of zetrix-sdk for exchange', function() {
       payload:'\'use strict\';\n\n\n\n\nlet globalAttribute = {};\nconst globalAttributeKey = \'global_attribute\';\n\n\n\n\nfunction makeAllowanceKey(owner, spender){\n    return \'allow_\' + owner + \'_to_\' + spender;\n}\n\n\n\n\nfunction approve(spender, value){\n    Utils.assert(Utils.addressCheck(spender) === true, \'Arg-spender is not a valid address.\');\n    Utils.assert(Utils.stoI64Check(value) === true, \'Arg-value must be alphanumeric.\');\n    Utils.assert(Utils.int64Compare(value, \'0\') > 0, \'Arg-value of spender \' + spender + \' must be greater than 0.\');\n\n\n\n\n    let key = makeAllowanceKey(Chain.msg.sender, spender);\n    Chain.store(key, value);\n\n\n\n\n    Chain.tlog(\'approve\', Chain.msg.sender, spender, value);\n\n\n\n\n    return true;\n}\n\n\n\n\nfunction allowance(owner, spender){\n    Utils.assert(Utils.addressCheck(owner) === true, \'Arg-owner is not a valid address.\');\n    Utils.assert(Utils.addressCheck(spender) === true, \'Arg-spender is not a valid address.\');\n\n\n\n\n    let key = makeAllowanceKey(owner, spender);\n    let value = Chain.load(key);\n    Utils.assert(value !== false, \'Failed to get the allowance given to \' + spender + \' by \' + owner + \' from metadata.\');\n\n\n\n\n    return value;\n}\n\n\n\n\nfunction transfer(to, value){\n    Utils.assert(Utils.addressCheck(to) === true, \'Arg-to is not a valid address.\');\n    Utils.assert(Utils.stoI64Check(value) === true, \'Arg-value must be alphanumeric.\');\n    Utils.assert(Utils.int64Compare(value, \'0\') > 0, \'Arg-value must be greater than 0.\');\n    if(Chain.msg.sender === to) {\n        Chain.tlog(\'transfer\', Chain.msg.sender, to, value);  \n        return true;\n    }\n    \n    let senderValue = Chain.load(Chain.msg.sender);\n    Utils.assert(senderValue !== false, \'Failed to get the balance of \' + Chain.msg.sender + \' from metadata.\');\n    Utils.assert(Utils.int64Compare(senderValue, value) >= 0, \'Balance:\' + senderValue + \' of sender:\' + Chain.msg.sender + \' < transfer value:\' + value + \'.\');\n\n\n\n\n    let toValue = Chain.load(to);\n    toValue = (toValue === false) ? value : Utils.int64Add(toValue, value); \n    Chain.store(to, toValue);\n\n\n\n\n    senderValue = Utils.int64Sub(senderValue, value);\n    Chain.store(Chain.msg.sender, senderValue);\n\n\n\n\n    Chain.tlog(\'transfer\', Chain.msg.sender, to, value);\n\n\n\n\n    return true;\n}\n\n\n\n\nfunction transferFrom(from, to, value){\n    Utils.assert(Utils.addressCheck(from) === true, \'Arg-from is not a valid address.\');\n    Utils.assert(Utils.addressCheck(to) === true, \'Arg-to is not a valid address.\');\n    Utils.assert(Utils.stoI64Check(value) === true, \'Arg-value must be alphanumeric.\');\n    Utils.assert(Utils.int64Compare(value, \'0\') > 0, \'Arg-value must be greater than 0.\');\n    \n    if(from === to) {\n        Chain.tlog(\'transferFrom\', Chain.msg.sender, from, to, value);\n        return true;\n    }\n    \n    let fromValue = Chain.load(from);\n    Utils.assert(fromValue !== false, \'Failed to get the value, probably because \' + from + \' has no value.\');\n    Utils.assert(Utils.int64Compare(fromValue, value) >= 0, from + \' Balance:\' + fromValue + \' < transfer value:\' + value + \'.\');\n\n\n\n\n    let allowValue = allowance(from, Chain.msg.sender);\n    Utils.assert(Utils.int64Compare(allowValue, value) >= 0, \'Allowance value:\' + allowValue + \' < transfer value:\' + value + \' from \' + from + \' to \' + to  + \'.\');\n\n\n\n\n    let toValue = Chain.load(to);\n    toValue = (toValue === false) ? value : Utils.int64Add(toValue, value); \n    Chain.store(to, toValue);\n\n\n\n\n    fromValue = Utils.int64Sub(fromValue, value);\n    Chain.store(from, fromValue);\n\n\n\n\n    let allowKey = makeAllowanceKey(from, Chain.msg.sender);\n    allowValue   = Utils.int64Sub(allowValue, value);\n    Chain.store(allowKey, allowValue);\n\n\n\n\n    Chain.tlog(\'transferFrom\', Chain.msg.sender, from, to, value);\n\n\n\n\n    return true;\n}\n\n\n\n\nfunction balanceOf(address){\n    Utils.assert(Utils.addressCheck(address) === true, \'Arg-address is not a valid address.\');\n\n\n\n\n    let value = Chain.load(address);\n    Utils.assert(value !== false, \'Failed to get the balance of \' + address + \' from metadata.\');\n    return value;\n}\n\n\n\n\nfunction init(input_str){\n    let params = JSON.parse(input_str).params;\n\n\n\n\n    Utils.assert(Utils.stoI64Check(params.totalSupply) === true && params.totalSupply > 0 &&\n           typeof params.name === \'string\' && params.name.length > 0 &&\n           typeof params.symbol === \'string\' && params.symbol.length > 0 &&\n           typeof params.decimals === \'number\' && params.decimals >= 0, \n           \'Failed to check args\');\n       \n    globalAttribute.totalSupply = params.totalSupply;\n    globalAttribute.name = params.name;\n    globalAttribute.symbol = params.symbol;\n    globalAttribute.version = \'ATP20\';\n    globalAttribute.decimals = params.decimals;\n    \n    Chain.store(globalAttributeKey, JSON.stringify(globalAttribute));\n    Chain.store(Chain.msg.sender, globalAttribute.totalSupply);\n}\n\n\n\n\nfunction main(input_str){\n    let input = JSON.parse(input_str);\n\n\n\n\n    if(input.method === \'transfer\'){\n        transfer(input.params.to, input.params.value);\n    }\n    else if(input.method === \'transferFrom\'){\n        transferFrom(input.params.from, input.params.to, input.params.value);\n    }\n    else if(input.method === \'approve\'){\n        approve(input.params.spender, input.params.value);\n    }\n    else{\n        throw \'<Main interface passes an invalid operation type>\';\n    }\n}\n\n\n\n\nfunction query(input_str){\n    let result = {};\n    let input  = JSON.parse(input_str);\n\n\n\n\n    if(input.method === \'tokenInfo\'){\n        globalAttribute = JSON.parse(Chain.load(globalAttributeKey));\n        result.tokenInfo = globalAttribute;\n    }\n    else if(input.method === \'allowance\'){\n        result.allowance = allowance(input.params.owner, input.params.spender);\n    }\n    else if(input.method === \'balanceOf\'){\n        result.balance = balanceOf(input.params.address);\n    }\n    else{\n        throw \'<Query interface passes an invalid operation type>\';\n    }\n    return JSON.stringify(result);\n}\n',
       initInput: '{\"params\":{\"totalSupply\":\"100000000000000\",\"name\":\"CRV\",\"symbol\":\"CRV \",\"decimals\":6}}',
       metadata: 'create contract',
+      owner: newAddress
     });
     assert.strictEqual(operationInfo.errorCode, 0, operationInfo.errorDesc);
 
@@ -751,7 +752,94 @@ describe('The demo of zetrix-sdk for exchange', function() {
     await sleep(1500);
   });
 
+  it('Upgrade contract', async () => {
+    const accountInfo = await sdk.account.getNonce(newAddress);
+    assert.strictEqual(accountInfo.errorCode, 0, accountInfo.errorDesc);
+
+    let nonce = accountInfo.result.nonce;
+    // nonce + 1
+    nonce = new BigNumber(nonce).plus(1).toString(10);
+
+    // ====================================
+    // 1. build operation (gasSendOperation)
+    // ====================================
+    const operationInfo = await sdk.operation.contractUpgradeOperation({
+      sourceAddress: newAddress,
+      contractAddress: 'ZTX3UenELDaFHtXRdkVHK9845VUj8493eBSrU',
+      sPayload: true,
+      payload: '\'use strict\';\n\n\n\n\nlet test= \'test\'; let globalAttribute = {};\nconst globalAttributeKey = \'global_attribute\';\n\n\n\n\nfunction makeAllowanceKey(owner, spender){\n    return \'allow_\' + owner + \'_to_\' + spender;\n}\n\n\n\n\nfunction approve(spender, value){\n    Utils.assert(Utils.addressCheck(spender) === true, \'Arg-spender is not a valid address.\');\n    Utils.assert(Utils.stoI64Check(value) === true, \'Arg-value must be alphanumeric.\');\n    Utils.assert(Utils.int64Compare(value, \'0\') > 0, \'Arg-value of spender \' + spender + \' must be greater than 0.\');\n\n\n\n\n    let key = makeAllowanceKey(Chain.msg.sender, spender);\n    Chain.store(key, value);\n\n\n\n\n    Chain.tlog(\'approve\', Chain.msg.sender, spender, value);\n\n\n\n\n    return true;\n}\n\n\n\n\nfunction allowance(owner, spender){\n    Utils.assert(Utils.addressCheck(owner) === true, \'Arg-owner is not a valid address.\');\n    Utils.assert(Utils.addressCheck(spender) === true, \'Arg-spender is not a valid address.\');\n\n\n\n\n    let key = makeAllowanceKey(owner, spender);\n    let value = Chain.load(key);\n    Utils.assert(value !== false, \'Failed to get the allowance given to \' + spender + \' by \' + owner + \' from metadata.\');\n\n\n\n\n    return value;\n}\n\n\n\n\nfunction transfer(to, value){\n    Utils.assert(Utils.addressCheck(to) === true, \'Arg-to is not a valid address.\');\n    Utils.assert(Utils.stoI64Check(value) === true, \'Arg-value must be alphanumeric.\');\n    Utils.assert(Utils.int64Compare(value, \'0\') > 0, \'Arg-value must be greater than 0.\');\n    if(Chain.msg.sender === to) {\n        Chain.tlog(\'transfer\', Chain.msg.sender, to, value);  \n        return true;\n    }\n    \n    let senderValue = Chain.load(Chain.msg.sender);\n    Utils.assert(senderValue !== false, \'Failed to get the balance of \' + Chain.msg.sender + \' from metadata.\');\n    Utils.assert(Utils.int64Compare(senderValue, value) >= 0, \'Balance:\' + senderValue + \' of sender:\' + Chain.msg.sender + \' < transfer value:\' + value + \'.\');\n\n\n\n\n    let toValue = Chain.load(to);\n    toValue = (toValue === false) ? value : Utils.int64Add(toValue, value); \n    Chain.store(to, toValue);\n\n\n\n\n    senderValue = Utils.int64Sub(senderValue, value);\n    Chain.store(Chain.msg.sender, senderValue);\n\n\n\n\n    Chain.tlog(\'transfer\', Chain.msg.sender, to, value);\n\n\n\n\n    return true;\n}\n\n\n\n\nfunction transferFrom(from, to, value){\n    Utils.assert(Utils.addressCheck(from) === true, \'Arg-from is not a valid address.\');\n    Utils.assert(Utils.addressCheck(to) === true, \'Arg-to is not a valid address.\');\n    Utils.assert(Utils.stoI64Check(value) === true, \'Arg-value must be alphanumeric.\');\n    Utils.assert(Utils.int64Compare(value, \'0\') > 0, \'Arg-value must be greater than 0.\');\n    \n    if(from === to) {\n        Chain.tlog(\'transferFrom\', Chain.msg.sender, from, to, value);\n        return true;\n    }\n    \n    let fromValue = Chain.load(from);\n    Utils.assert(fromValue !== false, \'Failed to get the value, probably because \' + from + \' has no value.\');\n    Utils.assert(Utils.int64Compare(fromValue, value) >= 0, from + \' Balance:\' + fromValue + \' < transfer value:\' + value + \'.\');\n\n\n\n\n    let allowValue = allowance(from, Chain.msg.sender);\n    Utils.assert(Utils.int64Compare(allowValue, value) >= 0, \'Allowance value:\' + allowValue + \' < transfer value:\' + value + \' from \' + from + \' to \' + to  + \'.\');\n\n\n\n\n    let toValue = Chain.load(to);\n    toValue = (toValue === false) ? value : Utils.int64Add(toValue, value); \n    Chain.store(to, toValue);\n\n\n\n\n    fromValue = Utils.int64Sub(fromValue, value);\n    Chain.store(from, fromValue);\n\n\n\n\n    let allowKey = makeAllowanceKey(from, Chain.msg.sender);\n    allowValue   = Utils.int64Sub(allowValue, value);\n    Chain.store(allowKey, allowValue);\n\n\n\n\n    Chain.tlog(\'transferFrom\', Chain.msg.sender, from, to, value);\n\n\n\n\n    return true;\n}\n\n\n\n\nfunction balanceOf(address){\n    Utils.assert(Utils.addressCheck(address) === true, \'Arg-address is not a valid address.\');\n\n\n\n\n    let value = Chain.load(address);\n    Utils.assert(value !== false, \'Failed to get the balance of \' + address + \' from metadata.\');\n    return value;\n}\n\n\n\n\nfunction init(input_str){\n    let params = JSON.parse(input_str).params;\n\n\n\n\n    Utils.assert(Utils.stoI64Check(params.totalSupply) === true && params.totalSupply > 0 &&\n           typeof params.name === \'string\' && params.name.length > 0 &&\n           typeof params.symbol === \'string\' && params.symbol.length > 0 &&\n           typeof params.decimals === \'number\' && params.decimals >= 0, \n           \'Failed to check args\');\n       \n    globalAttribute.totalSupply = params.totalSupply;\n    globalAttribute.name = params.name;\n    globalAttribute.symbol = params.symbol;\n    globalAttribute.version = \'ATP20\';\n    globalAttribute.decimals = params.decimals;\n    \n    Chain.store(globalAttributeKey, JSON.stringify(globalAttribute));\n    Chain.store(Chain.msg.sender, globalAttribute.totalSupply);\n}\n\n\n\n\nfunction main(input_str){\n    let input = JSON.parse(input_str);\n\n\n\n\n    if(input.method === \'transfer\'){\n        transfer(input.params.to, input.params.value);\n    }\n    else if(input.method === \'transferFrom\'){\n        transferFrom(input.params.from, input.params.to, input.params.value);\n    }\n    else if(input.method === \'approve\'){\n        approve(input.params.spender, input.params.value);\n    }\n    else{\n        throw \'<Main interface passes an invalid operation type>\';\n    }\n}\n\n\n\n\nfunction query(input_str){\n    let result = {};\n    let input  = JSON.parse(input_str);\n\n\n\n\n    if(input.method === \'tokenInfo\'){\n        globalAttribute = JSON.parse(Chain.load(globalAttributeKey));\n        result.tokenInfo = globalAttribute;\n    }\n    else if(input.method === \'allowance\'){\n        result.allowance = allowance(input.params.owner, input.params.spender);\n    }\n    else if(input.method === \'balanceOf\'){\n        result.balance = balanceOf(input.params.address);\n    }\n    else{\n        throw \'<Query interface passes an invalid operation type>\';\n    }\n    return JSON.stringify(result);\n}\n',
+      sOwner: false,
+      owner: 'ZTX3Zfe34qLZNq52FAKjoLLXXrmWZQMwLYXLQ',
+      metadata: 'upgrade contract'
+    });
+    assert.strictEqual(operationInfo.errorCode, 0, operationInfo.errorDesc);
+
+    const operationItem = operationInfo.result.operation;
+
+    // ====================================
+    // 2. build blob
+    // ====================================
+    const blobInfo = sdk.transaction.buildBlob({
+      sourceAddress: newAddress,
+      gasPrice: '1000',
+      feeLimit: '17000000',
+      nonce,
+      operations: [operationItem],
+    });
+    assert.strictEqual(blobInfo.errorCode, 0, blobInfo.errorDesc);
+
+    const blob = blobInfo.result.transactionBlob;
+
+    // ====================================
+    // 3. sign blob with sender private key
+    // ====================================
+    let signatureInfo = sdk.transaction.sign({
+      privateKeys: [newPriv],
+      blob,
+    });
+    assert.strictEqual(signatureInfo.errorCode, 0, signatureInfo.errorDesc);
+
+    const signature = signatureInfo.result.signatures;
+
+    // ====================================
+    // 4. submit transaction
+    // ====================================
+    const transactionInfo = await sdk.transaction.submit({
+      blob,
+      signature: signature,
+    });
+    assert.strictEqual(transactionInfo.errorCode, 0, transactionInfo.errorDesc);
+
+    txHash = transactionInfo.result.hash;
+
+    console.log(txHash);
+
+    await sleep(1500);
+  });
+
+  it('Invoke Contract By Sending Gas sleep', async () => {
+    await sleep(1500);
+  });
+
+  it('Invoke Contract By Sending Gas sleep', async () => {
+    await sleep(1500);
+  });
+
   it('call Contract ', async () => {
+
+    const callResp = await sdk.contract.call({
+      contractAddress: contractAddress,
+      contractBalance: '100000000000',
+      feeLimit: '1000000000',
+      gasPrice: '1000',
+      input: '{\"method\":\"balanceOf\",\"params\":{\"address\":\"ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3\"}}',
+      optType: 2
+    });
+    assert.strictEqual(callResp.errorCode, 0, callResp.errorDesc);
+    console.log(callResp.result);
+  });
+
+  it('upgrade Contract ', async () => {
 
     const callResp = await sdk.contract.call({
       contractAddress: contractAddress,
