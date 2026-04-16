@@ -9,13 +9,42 @@ const sdk = new ZtxChainSDK({
 
 describe('Test zetrix-sdk account service', function() {
 
-  it('test account.create()', async() => {
-    const keypair = await sdk.account.create();
-    keypair.errorCode.should.equal(0);
-    keypair.result.should.be.a('object');
-    keypair.result.should.have.property('privateKey').with.lengthOf(56);
-    keypair.result.should.have.property('publicKey').with.lengthOf(76);
-    keypair.result.should.have.property('address').with.lengthOf(37);
+  it('test account.create() — default (ed25519)', async() => {
+    const kp = await sdk.account.create();
+    kp.errorCode.should.equal(0);
+    kp.result.should.be.a('object');
+    // ED25519-specific lengths
+    kp.result.should.have.property('privateKey').with.lengthOf(56);
+    kp.result.should.have.property('publicKey').with.lengthOf(76);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX3/);
+  });
+
+  it('test account.create(\'sm2\')', async() => {
+    const kp = await sdk.account.create('sm2');
+    kp.errorCode.should.equal(0);
+    kp.result.should.have.property('privateKey').with.lengthOf(56);
+    kp.result.should.have.property('publicKey').with.lengthOf(142);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX3/);
+  });
+
+  it('test account.create(\'dilithium3\')', async() => {
+    const kp = await sdk.account.create('dilithium3');
+    kp.errorCode.should.equal(0);
+    kp.result.privateKey.should.be.a('string').with.length.above(0);
+    kp.result.publicKey.should.be.a('string').with.length.above(0);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX4/);
+  });
+
+  it('test account.create(\'hybrid\')', async() => {
+    const kp = await sdk.account.create('hybrid');
+    kp.errorCode.should.equal(0);
+    kp.result.privateKey.should.be.a('string').with.length.above(0);
+    kp.result.publicKey.should.be.a('string').with.length.above(0);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX5/);
   });
 
 
