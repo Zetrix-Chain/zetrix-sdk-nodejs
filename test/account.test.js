@@ -49,7 +49,7 @@ describe('Test zetrix-sdk account service', function() {
 
 
   it('test account.getInfo(address)', async() => {
-    let address = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    let address = 'ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T';
     let data = await sdk.account.getInfo(address);
     data.should.be.a('object');
     data.errorCode.should.equal(0);
@@ -71,7 +71,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.checkValid(address)', async() => {
-    let data = await sdk.account.checkValid('ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3');
+    let data = await sdk.account.checkValid('ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T');
     data.should.be.a('object');
     data.result.should.be.a('object');
     data.result.should.have.property('isValid').equal(true);
@@ -94,7 +94,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.getBalance(address)', async() => {
-    let address = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    let address = 'ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T';
     let data = await sdk.account.getBalance(address);
     data.should.be.a('object');
     data.errorCode.should.equal(0);
@@ -117,7 +117,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.getNonce(address)', async() => {
-    let address = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    let address = 'ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T';
     let data = await sdk.account.getNonce(address);
     data.should.be.a('object');
     data.errorCode.should.equal(0);
@@ -139,7 +139,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.isActivated()', async() => {
-    let data = await sdk.account.isActivated('ZTX3KepoBV7f7PmjLUF8BZxNydh62r4z8dfm4');
+    let data = await sdk.account.isActivated('ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T');
     data.errorCode.should.equal(0);
     data.result.isActivated.should.equal(true);
 
