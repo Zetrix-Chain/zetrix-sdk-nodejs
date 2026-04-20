@@ -9,18 +9,50 @@ const sdk = new ZtxChainSDK({
 
 describe('Test zetrix-sdk account service', function() {
 
-  it('test account.create()', async() => {
-    const keypair = await sdk.account.create();
-    keypair.errorCode.should.equal(0);
-    keypair.result.should.be.a('object');
-    keypair.result.should.have.property('privateKey').with.lengthOf(56);
-    keypair.result.should.have.property('publicKey').with.lengthOf(76);
-    keypair.result.should.have.property('address').with.lengthOf(37);
+  it('test account.create() — default (ed25519)', async() => {
+    const kp = await sdk.account.create();
+    kp.errorCode.should.equal(0);
+    kp.result.should.be.a('object');
+    // ED25519-specific lengths
+    kp.result.should.have.property('privateKey').with.lengthOf(56);
+    kp.result.should.have.property('publicKey').with.lengthOf(76);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX3/);
+  });
+
+  it('test account.create(\'sm2\')', async() => {
+    const kp = await sdk.account.create('sm2');
+    kp.errorCode.should.equal(0);
+    kp.result.should.have.property('privateKey').with.lengthOf(56);
+    kp.result.should.have.property('publicKey').with.lengthOf(142);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX3/);
+  });
+
+  it('test account.create(\'dilithium3\')', async() => {
+    const kp = await sdk.account.create('dilithium3');
+    kp.errorCode.should.equal(0);
+    kp.result.privateKey.should.be.a('string').with.length.above(0);
+    kp.result.publicKey.should.be.a('string').with.length.above(0);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX4/);
+  });
+
+  it('test account.create(\'hybrid\')', async() => {
+    const kp = await sdk.account.create('hybrid');
+    kp.errorCode.should.equal(0);
+    kp.result.privateKey.should.be.a('string').with.length.above(0);
+    kp.result.publicKey.should.be.a('string').with.length.above(0);
+    kp.result.should.have.property('address').with.lengthOf(37);
+    kp.result.address.should.match(/^ZTX5/);
   });
 
 
   it('test account.getInfo(address)', async() => {
-    let address = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    // ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3 was the previous active test address;
+    // replaced with ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T which is a funded account on the
+    // single-node development network deployed on the test server.
+    let address = 'ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T';
     let data = await sdk.account.getInfo(address);
     data.should.be.a('object');
     data.errorCode.should.equal(0);
@@ -42,7 +74,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.checkValid(address)', async() => {
-    let data = await sdk.account.checkValid('ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3');
+    let data = await sdk.account.checkValid('ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T');
     data.should.be.a('object');
     data.result.should.be.a('object');
     data.result.should.have.property('isValid').equal(true);
@@ -65,7 +97,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.getBalance(address)', async() => {
-    let address = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    let address = 'ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T';
     let data = await sdk.account.getBalance(address);
     data.should.be.a('object');
     data.errorCode.should.equal(0);
@@ -88,7 +120,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.getNonce(address)', async() => {
-    let address = 'ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3';
+    let address = 'ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T';
     let data = await sdk.account.getNonce(address);
     data.should.be.a('object');
     data.errorCode.should.equal(0);
@@ -110,7 +142,7 @@ describe('Test zetrix-sdk account service', function() {
   });
 
   it('test account.isActivated()', async() => {
-    let data = await sdk.account.isActivated('ZTX3KepoBV7f7PmjLUF8BZxNydh62r4z8dfm4');
+    let data = await sdk.account.isActivated('ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T');
     data.errorCode.should.equal(0);
     data.result.isActivated.should.equal(true);
 
