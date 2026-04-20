@@ -49,6 +49,9 @@ describe('Test zetrix-sdk account service', function() {
 
 
   it('test account.getInfo(address)', async() => {
+    // ZTX3Ta7d4GyAXD41H2kFCTd2eXhDesM83rvC3 was the previous active test address;
+    // replaced with ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T which is a funded account on the
+    // single-node development network deployed on the test server.
     let address = 'ZTX3ag1AT3JHSkTr3XTfnuhwHgtJ88z3SxY8T';
     let data = await sdk.account.getInfo(address);
     data.should.be.a('object');

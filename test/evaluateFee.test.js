@@ -74,8 +74,8 @@ describe('evaluateFee — four scenarios', function () {
 
     // ── Scenario 1 ───────────────────────────────────────────────────────────
 
-    it('S1: privateKeys + JSON — exact fee, returns blob & signatures ready for submit', async () => {
-        if (!privateKey) return; // skip if no private key in .env
+    it('S1: privateKeys + JSON — exact fee, returns blob & signatures ready for submit', async function() {
+        if (!privateKey) return this.skip();
 
         const result = await sdk.transaction.evaluateFee({
             sourceAddress,
@@ -109,8 +109,8 @@ describe('evaluateFee — four scenarios', function () {
 
     // ── Scenario 2 ───────────────────────────────────────────────────────────
 
-    it('S2: blob + signatures — exact fee, returns fee values only', async () => {
-        if (!privateKey || !externalSigs) return; // skip if no key in .env
+    it('S2: blob + signatures — exact fee, returns fee values only', async function() {
+        if (!privateKey || !externalSigs) return this.skip();
 
         const result = await sdk.transaction.evaluateFee({
             transactionBlob: prebuiltBlob,
